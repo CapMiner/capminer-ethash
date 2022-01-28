@@ -1,4 +1,4 @@
-# Ethash fork from [chfast](https://github.com/chfast/ethash/tree/v0.7.1)
+# Ethash fork from [chfast/ethash/v0.7.1](https://github.com/chfast/ethash/tree/v0.7.1)
 
 [![readme style standard](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
