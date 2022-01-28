@@ -19,9 +19,10 @@ using namespace ethash;  // Include ethash namespace.
 
 /// The ProgPoW algorithm revision implemented as specified in the spec
 /// https://github.com/ifdefelse/ProgPOW#change-history.
-constexpr auto revision = "0.9.3";
+constexpr auto revision = "0.9.4"; // Latest
 
-constexpr int period_length = 10;
+constexpr int period_length = 3;    // 3 blocks ~ 0.75 mins 
+// Decreasing from 10 > 3 prevents overall difficulty from drifting in response to individual period
 constexpr uint32_t num_regs = 32;
 constexpr size_t num_lanes = 16;
 constexpr int num_cache_accesses = 11;
