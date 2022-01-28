@@ -1,9 +1,10 @@
-# Ethash
+# Ethash fork from [chfast](https://github.com/chfast/ethash/tree/v0.7.1)
 
 [![readme style standard](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
 > C/C++ implementation of Ethash and ProgPoW – the Ethereum Proof of Work algorithms
 
+Ethash v0.7.1 was forked as all later releases (i.e. >=0.8) expunged ProgPow support.
 
 ## Table of Contents
 
