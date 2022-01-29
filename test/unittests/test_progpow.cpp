@@ -17,9 +17,9 @@ TEST(progpow, revision)
     static_assert(progpow::revision[1] == '.', "");
     static_assert(progpow::revision[2] == '9', "");
     static_assert(progpow::revision[3] == '.', "");
-    static_assert(progpow::revision[4] == '3', "");
-    EXPECT_EQ(progpow::revision, "0.9.3");
-    EXPECT_EQ(progpow::revision, (std::string{"0.9.3"}));
+    static_assert(progpow::revision[4] == '4', "");
+    EXPECT_EQ(progpow::revision, "0.9.4");
+    EXPECT_EQ(progpow::revision, (std::string{"0.9.4"}));
 }
 
 TEST(progpow, l1_cache)
@@ -38,7 +38,7 @@ TEST(progpow, l1_cache)
     EXPECT_EQ(cache_slice, expected);
 }
 
-TEST(progpow, hash_empty)
+TEST(progpow, hash_empty)   // To do: update mix and final hex
 {
     auto& context = get_ethash_epoch_context_0();
 
@@ -49,7 +49,7 @@ TEST(progpow, hash_empty)
     EXPECT_EQ(to_hex(result.final_hash), final_hex);
 }
 
-TEST(progpow, hash_30000)
+TEST(progpow, hash_30000)   // To do: update mix and final hex
 {
     const int block_number = 30000;
     const auto header =
@@ -109,6 +109,7 @@ TEST(progpow, search)
     constexpr uint64_t expected_nonce = 11;
     constexpr size_t iterations = 10;
 
+    //To do: edit start nonce
     auto boundary = to_hash256("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
     auto sr = progpow::search(ctx, 0, {}, boundary, 0, iterations);
     auto srl = progpow::search_light(ctxl, 0, {}, boundary, 0, iterations);
@@ -119,10 +120,12 @@ TEST(progpow, search)
     EXPECT_EQ(sr.mix_hash, srl.mix_hash);
     EXPECT_EQ(sr.final_hash, srl.final_hash);
     EXPECT_EQ(sr.nonce, srl.nonce);
-
+    
+    //To do: edit start nonce
     sr = progpow::search(ctx, 0, {}, boundary, iterations, iterations);
     srl = progpow::search_light(ctxl, 0, {}, boundary, iterations, iterations);
 
+    //To do: edit expected nonce
     EXPECT_NE(sr.mix_hash, ethash::hash256{});
     EXPECT_NE(sr.final_hash, ethash::hash256{});
     EXPECT_EQ(sr.nonce, expected_nonce);
