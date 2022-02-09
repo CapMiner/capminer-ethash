@@ -38,18 +38,18 @@ TEST(progpow, l1_cache)
     EXPECT_EQ(cache_slice, expected);
 }
 
-TEST(progpow, hash_empty)   // To do: update mix and final hex
+TEST(progpow, hash_empty)  // To do: update mix and final hex
 {
     auto& context = get_ethash_epoch_context_0();
 
     const auto result = progpow::hash(context, 0, {}, 0);
-    const auto mix_hex = "f4ac202715ded4136e72887c39e63a4738331c57fd9eb79f6ec421c281aa8743";
-    const auto final_hex = "b3bad9ca6f7c566cf0377d1f8cce29d6516a96562c122d924626281ec948ef02";
+    const auto mix_hex = "40ce8bf6046c09f90f812f015d4ab8a1b504e7313e86d8a96197d5dadc3634e5";
+    const auto final_hex = "e6480cfa901dd209a9d8bef73275896be179f86b42e136efe692e14a41cb17b2";
     EXPECT_EQ(to_hex(result.mix_hash), mix_hex);
     EXPECT_EQ(to_hex(result.final_hash), final_hex);
 }
 
-TEST(progpow, hash_30000)   // To do: update mix and final hex
+TEST(progpow, hash_30000)  // To do: update mix and final hex
 {
     const int block_number = 30000;
     const auto header =
@@ -59,8 +59,8 @@ TEST(progpow, hash_30000)   // To do: update mix and final hex
     auto context = ethash::create_epoch_context(ethash::get_epoch_number(block_number));
 
     const auto result = progpow::hash(*context, block_number, header, nonce);
-    const auto mix_hex = "6018c151b0f9895ebe44a4ca6ce2829e5ba6ae1a68a4ccd05a67ac01219655c1";
-    const auto final_hex = "34d8436444aa5c61761ce0bcce0f11401df2eace77f5c14ba7039b86b5800c08";
+    const auto mix_hex = "d510f22b43969f8eefd9a8080bc2250ae6182c0abcbc05acf4c110ee306db152";
+    const auto final_hex = "26c8489150607aba6a81430a44d3b1526c205af431faa2a4ff9a029810f74d75";
     EXPECT_EQ(to_hex(result.mix_hash), mix_hex);
     EXPECT_EQ(to_hex(result.final_hash), final_hex);
 }
@@ -106,13 +106,9 @@ TEST(progpow, search)
     auto& ctx = *ctxp;
     auto& ctxl = reinterpret_cast<const ethash::epoch_context&>(ctx);
 
-    constexpr uint64_t expected_nonce = 11;
-    constexpr size_t iterations = 10;
-
-    //To do: edit start nonce
     auto boundary = to_hash256("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-    auto sr = progpow::search(ctx, 0, {}, boundary, 0, iterations);
-    auto srl = progpow::search_light(ctxl, 0, {}, boundary, 0, iterations);
+    auto sr = progpow::search(ctx, 0, {}, boundary, 700, 100);
+    auto srl = progpow::search_light(ctxl, 0, {}, boundary, 700, 100);
 
     EXPECT_EQ(sr.mix_hash, ethash::hash256{});
     EXPECT_EQ(sr.final_hash, ethash::hash256{});
@@ -120,20 +116,18 @@ TEST(progpow, search)
     EXPECT_EQ(sr.mix_hash, srl.mix_hash);
     EXPECT_EQ(sr.final_hash, srl.final_hash);
     EXPECT_EQ(sr.nonce, srl.nonce);
-    
-    //To do: edit start nonce
-    sr = progpow::search(ctx, 0, {}, boundary, iterations, iterations);
-    srl = progpow::search_light(ctxl, 0, {}, boundary, iterations, iterations);
 
-    //To do: edit expected nonce
+    sr = progpow::search(ctx, 0, {}, boundary, 0, 100);
+    srl = progpow::search_light(ctxl, 0, {}, boundary, iter0ations, 100);
+
     EXPECT_NE(sr.mix_hash, ethash::hash256{});
     EXPECT_NE(sr.final_hash, ethash::hash256{});
-    EXPECT_EQ(sr.nonce, expected_nonce);
+    EXPECT_EQ(sr.nonce, 5);
     EXPECT_EQ(sr.mix_hash, srl.mix_hash);
     EXPECT_EQ(sr.final_hash, srl.final_hash);
     EXPECT_EQ(sr.nonce, srl.nonce);
 
-    auto r = progpow::hash(ctx, 0, {}, expected_nonce);
+    auto r = progpow::hash(ctx, 0, {}, 5);
     EXPECT_EQ(sr.final_hash, r.final_hash);
     EXPECT_EQ(sr.mix_hash, r.mix_hash);
 }
