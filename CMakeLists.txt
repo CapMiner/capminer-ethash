@@ -18,6 +18,11 @@ cable_set_build_type(DEFAULT Release CONFIGURATION_TYPES Release RelWithDebInfo 
 
 include(cmake/Hunter/init.cmake)
 
+HunterGate(
+    URL "https://github.com/cpp-pm/hunter/archive/v0.23.253.tar.gz"
+    SHA1 "88ea6d37c897a81a080eb9ae0f69d7807bbb3c73"
+)
+
 project(ethash)
 set(PROJECT_VERSION 0.7.1)
 
