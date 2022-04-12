@@ -3,7 +3,7 @@
 // Licensed under the Apache License, Version 2.0.
 
 #include "../ethash/ethash-internal.hpp"
-#include <ethash/global_context.h>
+#include "../../include/ethash/global_context.h"
 
 #include <memory>
 #include <mutex>
